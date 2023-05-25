@@ -4,12 +4,14 @@ import { useState } from 'react';
 function App() {
   //  create a state
   const [todos, setTodos] = useState([
-    {id: 1, name: "ranger"},
-    {id: 2, name: "boire 1L d'eau"}
+    // {id: 1, name: "ranger"},
+    // {id: 2, name: "boire 1L d'eau"}
   ]);
 
   // create another part of the state to handle the submit
   const [newTodo, setNewTodo] = useState("")
+
+  const [completedTodo, setCompletedTodo] = useState(false)
 
   // create components
   const handleDelete = (id) => {
@@ -43,29 +45,57 @@ function App() {
     setNewTodo(event.target.value)
   }
 
+  const handleCompletedChange = (event) => {
+    setCompletedTodo(event.target.checked)
+  }
+
   // render
   return (
-    <div>
-      <h1>My todos</h1>
-      <ul>
-        {todos.map((todo) => {
-          return (
-          <div>
-          <li key={todo.id}>{todo.name}</li>
-          <button onClick={() => handleDelete(todo.id)}>x</button>
-          </div>
-        )
-        })}
-      </ul>
-      <form action="submit" onSubmit={handleSubmit}>
-        <input
-          value={newTodo}
-          type="text"
-          placeholder="Add a todo"
-          onChange={handleChange} />
-        <button >Submit</button>
-      </form>
-    </div>
+    <body>
+      <div class="container">
+        <h1 class="title">My Todos</h1>
+        <form
+          class="todo-form"
+          action="submit"
+          onSubmit={handleSubmit}>
+          <input
+            value={newTodo}
+            type="text"
+            placeholder="New todo"
+            onChange={handleChange}
+          />
+          <button class="submit-button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </button>
+        </form>
+        <ul class="todo-list">
+          {todos.map((todo) => {
+            return (
+            <div class="todo-list-item">
+            <li class="item-name" key={todo.id}>{todo.name}</li>
+            <div class="item-button">
+              <input
+                class="check-button"
+                type="checkbox"
+                checked={completedTodo}
+                onChange={handleCompletedChange}
+              />
+              <button
+                class="delete-button"
+                onClick={() => handleDelete(todo.id)}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </button>
+            </div>
+            </div>
+          )
+          })}
+        </ul>
+      </div>
+    </body>
   );
 }
 
